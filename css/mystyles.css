@@ -1,0 +1,60 @@
+body {
+    font-family:helvetica, sans-serif;
+    font-size:.7em;
+}
+p {
+    margin:.5em 1em;
+}
+
+h1 { 
+	margin-bottom: 5px;
+	margin-top:5px;
+	font-weight: bold;
+	font-size: 32px;
+}
+h2 {
+	border-top:1px solid darkgray;
+	margin-top:0px;
+	padding-top:2px;
+	padding-bottom:2px;
+	padding-left: 20px;
+	background-color: darkGray;
+	font-size: 20px;
+	font
+}
+h3 {
+	margin-left: 15px;
+}
+
+
+.tile{
+	width: 35%;
+	float:left;
+	
+}
+#eeHeader{
+	width: 50%;
+    float: left;
+	margin-left: -20px;
+    text-align: right;
+	margin-bottom: 54px;
+}
+#eeNumber{
+	width: 10%;
+    float: left;
+    text-align: right;
+	margin-top: 12px;
+}
+#left{
+	width: 40%;
+    float: left;
+	margin-left: 20px;
+    text-align:left;
+}
+#mylist{
+	margin-top: 8px;
+	width: 8%;
+    margin-left: -75px;
+	margin-top: 15px;
+    float:left;
+}

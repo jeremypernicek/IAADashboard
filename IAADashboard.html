@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<link rel="stylesheet" type="text/css" href="css/mystyles.css">
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/highcharts.js"></script>
+	<script src="js/highcharts-more.js"></script>
+	<meta charset="UTF-8">
+	<title>IAA Insurance</title>
+	</head>
+
+	<body>
+		
+			<div class="title">
+				<h1 id="left">IAA Insurance Executive Dashboard</h1>
+				<select id="mylist" >
+				  <option value="June">June 2014</option>
+				  <option value="May">May 2014</option>
+				  <option value="April">April 2014</option>
+				  <option value="March">March 2014</option>
+				</select>
+				<hr style="clear:both; border:0px;"/>
+			</div>
+		<div id="Dashboard" class="parent">
+			<div class="tile" style="margin-left:50px;">
+				<h2>Policies Underwritten</h2>
+				<div id="container5" style="height:45px;width:90%;"></div> 
+				<div style="height:20px;"></div>
+				<div id="container6" style="height:45px;width:90%;"></div>
+				<div style="height:20px;"></div>
+				<div id="container7" style="height:200px;width:90%;"></div>
+			</div>
+			<div class="tile" style="border-left: 1px solid darkgray;" >
+				<h2>Policies Rewarded</h2>
+				<div id="container8" style="height:45px;width:90%;"></div> 
+				<div style="height:20px;"></div>
+				<div id="container9" style="height:45px;width:90%;"></div>
+				<div style="height:20px;"></div>
+				<div id="container10" style="height:200px;width:90%;"></div>
+			</div>
+			
+			<div class="tile" style="margin-left:50px;height:260;">
+				<h2>Employee Efficiency</h2>
+				<div id="container1" style="height:45px;width:90%;margin-bottom:20px; padding-top:50px;"></div> 
+				<div id="container2" style="height:45px;width:90%;margin-bottom:20px;"></div>
+				<div id="Emptocust">
+					<div id="eeHeader"><h3>Employee to Customer Ratio:</h3></div>
+					<div id="eeNumber"><input type="text" value="3.0" name="textbox" size="1" disabled style="text-align:center;font-weight:bold;"></div>
+				</div>
+			</div>
+			<div class="tile" style="height:260;border-left: 1px solid darkgray;">
+				<h2>Questionable Activity</h2>
+				<div id="container3" style="height: 200px; width: 90%;"></div>
+				<div id="container4" style="height:45px;width:90%; margin-bottom:10px;"></div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		
+		
+		
+
+	</body>
+<script> 
+$(document).ready(function() {
+// variables --------------------------------------------
+function randomFunction(min, max) {
+    return Math.floor((Math.random() * max) + min);              
+}
+
+
+var eeDaysToProcess = randomFunction(1,100);
+var eeClaimsProcesed = randomFunction(1,100);
+var numberUnderwritten = randomFunction(1,100);
+var amountUnderwritten = randomFunction(1,100);
+var underwrittenPie = 0;
+var numberRewarded = randomFunction(1,100);
+var amountRewarded = randomFunction(1,100);
+var rewardedPie = 0;
+var qaProcessedByAnalysts = randomFunction(1,100);
+
+var puPie1 = randomFunction(1,100);
+var puPie2 = randomFunction(1,100);
+var puPie3 = randomFunction(1,100);
+
+var prPie1 = randomFunction(1,100);
+var prPie2 = randomFunction(1,100);
+var prPie3 = randomFunction(1,100);
+
+//Make array of 7 random numbers
+var riskArray = [];
+riskArray[0] = randomFunction(1,1000);
+riskArray[1] = randomFunction(1,1000);
+riskArray[2] = randomFunction(1,1000);
+riskArray[3] = randomFunction(1,1000);
+riskArray[4] = randomFunction(1,1000);
+riskArray[5] = randomFunction(1,1000);
+riskArray[6] = randomFunction(1,1000);
+
+
+
+
+$( "#mylist" ).change(function() {
+  //alert( "Handler for .click() called." );
+	//EEbullet
+	chart1.series[0].update({
+                    data: [randomFunction(1,100)]
+                });
+	//EEbullet
+	chart2.series[0].update({
+                    data: [randomFunction(1,100)]
+                });
+	//QAbar chart	
+	chart3.series[0].update({
+                    data: [randomFunction(1,1000),randomFunction(1,1000),randomFunction(1,1000),randomFunction(1,1000),randomFunction(1,1000),randomFunction(1,1000),randomFunction(1,1000)]
+                });
+	//QAbullet
+	chart4.series[0].update({
+                    data: [randomFunction(1,100)]
+                });
+	//Underbullet
+	chart5.series[0].update({
+                    data: [randomFunction(1,100)]
+                });
+	//Underbullet
+	chart6.series[0].update({
+                    data: [randomFunction(1,100)]
+                });
+	//under pie chart
+	chart7.series[0].data[0].update(randomFunction(1,100));
+	//chart7.series[1].data[0].update(randomFunction(1,100));
+	//chart7.series[2].data[0].update(randomFunction(1,100));
+	
+	//RewardsBullet
+	chart8.series[0].update({
+                    data: [randomFunction(1,100)]
+                });
+	//RewardsBullet
+	chart9.series[0].update({
+                    data: [randomFunction(1,100)]
+                });
+	//rewarded pie chart
+	
+	chart10.series[0].data[0].update(randomFunction(1,100));
+	chart10.series[1].data[0].update(randomFunction(1,100));
+	chart10.series[2].data[0].update(randomFunction(1,100));
+				
+});
+//-------------------------------------------------------
+Highcharts.Renderer.prototype.symbols.line = function(x, y, width, height) {
+    return ['M',x ,y + width / 2,'L',x+height,y + width / 2];
+};
+// Radialize the colors
+		Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+		    return {
+		        radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+		        stops: [
+		            [0, color],
+		            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+		        ]
+		    };
+		});
+//-------------------------------------------------------
+Highcharts.setOptions({
+    chart:{
+        type:'bar',
+        margin:[5,15,10,100],
+    },
+    credits:{enabled:false},
+    exporting:{enabled:false},
+    legend:{enabled:false},
+    title:{text:''},
+    xAxis:{
+        tickLength:0,
+        lineColor:'#999',
+        lineWidth:1,
+        labels:{style:{fontWeight:'bold', color:'black',fontSize:'12px'}}        
+    },
+    yAxis:{
+        min:0,
+        minPadding:0,
+        maxPadding:0,
+        tickColor:'#ccc',
+        tickWidth:1,
+        tickLength:3,
+        gridLineWidth:0,
+        endOnTick:true,
+        title:{text: ''},
+        labels:{
+            y:10,
+            style:{
+                fontSize:'14px',
+				color: 'black'
+            },
+            formatter:function(){
+                if (this.isLast){
+                    return this.value + ' ';
+                }
+                else{
+                    return this.value;
+                }
+            }
+        }
+    },
+    tooltip:{
+        enabled:true,
+        backgroundColor:'rgba(255, 255, 255, .85)',
+        borderWidth:0,
+        shadow:true,
+        style:{fontSize:'10px',padding:2},
+        formatter:function() {
+           return this.series.name + ": <strong>" + Highcharts.numberFormat(this.y,0) + "</strong>";
+        }
+    },
+    plotOptions:{
+        bar:{
+            color:'#4682B4',
+            shadow:false,
+            borderWidth:0,
+        },
+        scatter:{
+            marker:{
+                symbol:'line',
+                lineWidth:3,
+                radius:8,
+                lineColor:'#000'
+            }
+        }
+    }
+});
+//Employee Efficiency------------------------------------------------------
+//EE Days to Process Bullet------------------------------------------------
+var chart1 = new Highcharts.Chart({
+    chart:{renderTo:'container1'},
+    xAxis:{categories:['Days to Process Claims']},
+    yAxis:{
+        max:100,
+        labels:{y:10,style:{fontSize:'8px',color:'#000000'}},    
+        plotBands:[{from:0,to:70,color: 'rgba(103,103,103,.35)'},
+                   {from:70,to:85,color: 'rgba(153,153,153,.35)'},
+                   {from:85,to:100,color: 'rgba(204,204,204,.35)'}]
+    },
+    series:[{name:'Measure',pointwidth:15,data:[eeDaysToProcess]},
+            {name:'Target',type: 'scatter',data:[90],}]
+});
+
+//EE Number Processed Bullet--------------------------------------------------
+var chart2 = new Highcharts.Chart({
+    chart:{renderTo:'container2'},
+    xAxis:{categories:['Claims Processed']},
+    yAxis:{
+        max:100,
+        labels:{y:10,style:{fontSize:'8px'}},   
+        plotBands:[{from:0,to:75,color: 'rgba(103,103,103,.35)'},
+                   {from:75,to:90,color: 'rgba(153,153,153,.35)'},
+                   {from:90,to:100,color: 'rgba(204,204,204,.35)'}]
+    },
+    series:[{name:'Measure',pointwidth:15,data:[eeClaimsProcesed]},
+            {name:'Target',type: 'scatter',data:[90],}]
+});
+//Questionable Activity------------------------------------------------------
+//Questionable Bar Chart-----------------------------------------------------
+var chart3 = new Highcharts.Chart({
+    chart: {
+                renderTo:'container3',
+                type: 'column',
+				marginBottom: 25
+            },
+            title: {
+                text: 'Activity by Tier'
+            },
+            xAxis: {
+                categories: ['1', '2', '3','4','5', '6','7']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+					text: 'Occurrences'
+					},
+					style: {
+						color: 'black',
+						fontWeight: 'bold'
+					}
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0,
+					allowPointSelect: true
+                }
+            },
+            series: [{
+                name: 'Observed',
+                data: riskArray
+    
+            }]
+});
+//Questionable Bullet Chart--------------------------------------------------
+var chart4 = new Highcharts.Chart({
+    chart:{renderTo:'container4'},
+    xAxis:{categories:['Processed By Analysts']},
+    yAxis:{
+        max:100,
+        labels:{y:10,style:{fontSize:'8px'}},   
+        plotBands:[{from:0,to:75,color: 'rgba(103,103,103,.35)'},
+                   {from:75,to:90,color: 'rgba(153,153,153,.35)'},
+                   {from:90,to:100,color: 'rgba(204,204,204,.35)'}]
+    },
+    series:[{name:'Measure',pointwidth:15,data:[qaProcessedByAnalysts]},
+            {name:'Target',type: 'scatter',data:[95],}]
+});
+//Policies Underwritten------------------------------------------------------
+//Underwritten # Bullet Chart------------------------------------------------
+var chart5 = new Highcharts.Chart({
+    chart:{renderTo:'container5'},
+    xAxis:{categories:['Number Underwritten']},
+    yAxis:{
+        max:100,
+        labels:{y:10,style:{fontSize:'8px'}},   
+        plotBands:[{from:0,to:75,color: 'rgba(103,103,103,.35)'},
+                   {from:75,to:90,color: 'rgba(153,153,153,.35)'},
+                   {from:90,to:100,color: 'rgba(204,204,204,.35)'}]
+    },
+    series:[{name:'Measure',pointwidth:15,data:[numberUnderwritten]},
+            {name:'Target',type: 'scatter',data:[95],}]
+});
+//Underwritten $ Bullet Chart------------------------------------------------
+var chart6 = new Highcharts.Chart({
+    chart:{renderTo:'container6'},
+    xAxis:{categories:['Amount Underwritten']},
+    yAxis:{
+        max:100,
+        labels:{y:10,style:{fontSize:'8px'}},   
+        plotBands:[{from:0,to:75,color: 'rgba(103,103,103,.35)'},
+                   {from:75,to:90,color: 'rgba(153,153,153,.35)'},
+                   {from:90,to:100,color: 'rgba(204,204,204,.35)'}]
+    },
+    series:[{name:'Measure',pointwidth:15,data:[amountUnderwritten]},
+            {name:'Target',type: 'scatter',data:[95],}]
+});
+//Underwritten Type Pie Chart------------------------------------------------
+var chart7 = new Highcharts.Chart({
+	chart: {
+			renderTo:'container7',
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,//null,
+            plotShadow: false,
+			marginLeft: 180
+        },
+        title: {
+            text: 'Underwritten By Type',
+			align: 'left',
+			fontSize:'12px',
+			margin: 20			
+        },
+		tooltip: {
+        	    pointFormat: '{series.name}: <b>{point.yPrefix}</b>'
+            },
+		plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+					color: 'black',
+					fontSize: '22px'
+                },
+				showInLegend: true
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Policy Type',
+            data: [
+                ['Term', puPie1],
+                ['Variable', puPie2],
+                ['Whole', puPie3]
+            ]
+        }]
+});
+//Policies Rewarded----------------------------------------------------------
+//Rewarded # Bullet Chart----------------------------------------------------
+var chart8 = new Highcharts.Chart({
+    chart:{renderTo:'container8'},
+    xAxis:{categories:['Number Rewarded']},
+    yAxis:{
+        max:100,
+        labels:{y:10,style:{fontSize:'8px'}},   
+        plotBands:[{from:0,to:75,color: 'rgba(103,103,103,.35)'},
+                   {from:75,to:90,color: 'rgba(153,153,153,.35)'},
+                   {from:90,to:100,color: 'rgba(204,204,204,.35)'}]
+    },
+    series:[{name:'Measure',pointwidth:15,data:[numberRewarded]},
+            {name:'Target',type: 'scatter',data:[95],}]
+});
+//Rewarded $ Bullet Chart----------------------------------------------------
+var chart9 = new Highcharts.Chart({
+    chart:{renderTo:'container9'},
+    xAxis:{categories:['Amount Rewarded']},
+    yAxis:{
+        max:100,
+        labels:{y:10,style:{fontSize:'8px'}},   
+        plotBands:[{from:0,to:75,color: 'rgba(103,103,103,.35)'},
+                   {from:75,to:90,color: 'rgba(153,153,153,.35)'},
+                   {from:90,to:100,color: 'rgba(204,204,204,.35)'}]
+    },
+    series:[{name:'Measure',pointwidth:15,data:[amountRewarded]},
+            {name:'Target',type: 'scatter',data:[95],}]
+});
+//Rewarded Type Pie Chart----------------------------------------------------
+var chart10 = new Highcharts.Chart({
+	chart: {
+			renderTo:'container10',
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,//null,
+            plotShadow: false,
+			marginLeft: 180
+        },
+        title: {
+            text: 'Rewarded By Type',
+			align: 'left',
+			margin: 40
+			
+        },
+		tooltip: {
+        	    pointFormat: '{series.name}: <b>{point.yPrefix}</b>'
+            },
+		plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true
+                },
+				showInLegend: true
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Policy Type',
+            data: [
+                ['Term', prPie1],
+                ['Variable', prPie2],
+                ['Whole', prPie3]
+            ]
+        }]
+});
+});
+</script>
+</html>
